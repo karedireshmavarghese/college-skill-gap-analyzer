@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skill Analyzer | SkillGap AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7ff;
+            color: #172033;
+        }
+
+        nav {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid #e7e8f0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #5b4bdb;
+        }
+
+        .logo span {
+            color: #172033;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555d70;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .heading h1 {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .heading h1 span {
+            color: #5b4bdb;
+        }
+
+        .heading p {
+            color: #687084;
+            font-size: 16px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(30, 35, 70, 0.08);
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #dfe1eb;
+            border-radius: 9px;
+            margin-bottom: 22px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #5b4bdb;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .skill-option {
+            border: 1px solid #dddfea;
+            padding: 12px;
+            border-radius: 9px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+            background: #fafaff;
+        }
+
+        .skill-option:hover {
+            border-color: #5b4bdb;
+        }
+
+        .skill-option.selected {
+            background: #ebe8ff;
+            border-color: #5b4bdb;
+            color: #4d3cc8;
+            font-weight: bold;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            border: none;
+            background: #5b4bdb;
+            color: white;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .analyze-btn:hover {
+            background: #4939c7;
+        }
+
+        #result {
+            display: none;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-header h2 {
+            margin-bottom: 8px;
+        }
+
+        .match-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin: 20px auto;
+            background: conic-gradient(#5b4bdb 0%, #e8e9f2 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .match-inner {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .match-inner strong {
+            font-size: 32px;
+        }
+
+        .match-inner small {
+            color: #707789;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .result-box {
+            padding: 22px;
+            border-radius: 12px;
+            background: #f8f8ff;
+        }
+
+        .result-box h3 {
+            margin-bottom: 15px;
+        }
+
+        .result-box ul {
+            list-style: none;
+        }
+
+        .result-box li {
+            padding: 9px 0;
+            color: #5d6576;
+            border-bottom: 1px solid #e7e7ef;
+        }
+
+        .strength {
+            color: #198754 !important;
+        }
+
+        .gap {
+            color: #d97706 !important;
+        }
+
+        .roadmap {
+            margin-top: 20px;
+            padding: 22px;
+            background: #ebe8ff;
+            border-radius: 12px;
+        }
+
+        .roadmap h3 {
+            margin-bottom: 15px;
+        }
+
+        .roadmap-item {
+            background: white;
+            padding: 13px;
+            border-radius: 8px;
+            margin-bottom: 9px;
+        }
+
+        footer {
+            margin-top: 60px;
+            background: #15182a;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        footer p {
+            color: #aeb2c2;
+            margin-top: 7px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .heading h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        SkillGap<span>AI</span>
+    </div>
+
+    <a href="index.html">← Back to Home</a>
+</nav>
+
+
+<div class="container">
+
+    <div class="heading">
+
+        <h1>
+            Analyze Your <span>Skill Gap</span>
+        </h1>
+
+        <p>
+            Compare your skills with the requirements of your target career.
+        </p>
+
+    </div>
+
+
+    <!-- INPUT CARD -->
+
+    <div class="card">
+
+        <label>Your Name</label>
+
+        <input
+            type="text"
+            id="studentName"
+            placeholder="Enter your name"
+        >
+
+
+        <label>Target Job Role</label>
+
+        <select id="jobRole">
+
+            <option value="">
+                Select your target role
+            </option>
+
+            <option value="software">
+                Software Developer
+            </option>
+
+            <option value="data">
+                Data Analyst
+            </option>
+
+            <option value="web">
+                Frontend Developer
+            </option>
+
+            <option value="cloud">
+                Cloud Engineer
+            </option>
+
+        </select>
+
+
+        <label>
+            Select Your Current Skills
+        </label>
+
+        <div class="skills-grid">
+
+            <div class="skill-option" data-skill="Python">
+                Python
+            </div>
+
+            <div class="skill-option" data-skill="Java">
+                Java
+            </div>
+
+            <div class="skill-option" data-skill="C">
+                C
+            </div>
+
+            <div class="skill-option" data-skill="SQL">
+                SQL
+            </div>
+
+            <div class="skill-option" data-skill="HTML">
+                HTML
+            </div>
+
+            <div class="skill-option" data-skill="CSS">
+                CSS
+            </div>
+
+            <div class="skill-option" data-skill="JavaScript">
+                JavaScript
+            </div>
+
+            <div class="skill-option" data-skill="Git">
+                Git & GitHub
+            </div>
+
+            <div class="skill-option" data-skill="DSA">
+                Data Structures
+            </div>
+
+            <div class="skill-option" data-skill="React">
+                React
+            </div>
+
+            <div class="skill-option" data-skill="Excel">
+                Excel
+            </div>
+
+            <div class="skill-option" data-skill="AWS">
+                AWS
+            </div>
+
+        </div>
+
+
+        <button
+            class="analyze-btn"
+            onclick="analyzeSkills()"
+        >
+            🔍 Analyze My Skills
+        </button>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div class="card" id="result">
+
+        <div class="result-header">
+
+            <h2 id="welcome"></h2>
+
+            <p>
+                Here is your personalized skill-gap analysis.
+            </p>
+
+            <div
+                class="match-circle"
+                id="matchCircle"
+            >
+
+                <div class="match-inner">
+
+                    <strong id="matchScore">
+                        0%
+                    </strong>
+
+                    <small>
+                        Skill Match
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="result-grid">
+
+            <div class="result-box">
+
+                <h3>✅ Your Strengths</h3>
+
+                <ul id="strengths"></ul>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <h3>⚠️ Skill Gaps</h3>
+
+                <ul id="gaps"></ul>
+
+            </div>
+
+        </div>
+
+
+        <div class="roadmap">
+
+            <h3>🎯 Recommended Learning Roadmap</h3>
+
+            <div id="roadmap"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <h3>SkillGapAI</h3>
+
+    <p>
+        College Placement Skill-Gap Analyzer
+    </p>
+
+    <p>
+        Hackathon Prototype • 2026
+    </p>
+
+</footer>
+
+
+<script>
+
+const skillOptions =
+document.querySelectorAll(".skill-option");
+
+
+skillOptions.forEach(option => {
+
+    option.addEventListener("click", () => {
+
+        option.classList.toggle("selected");
+
+    });
+
+});
+
+
+const jobRequirements = {
+
+    software: [
+        "Python",
+        "Java",
+        "SQL",
+        "DSA",
+        "Git"
+    ],
+
+    data: [
+        "Python",
+        "SQL",
+        "Excel",
+        "Git"
+    ],
+
+    web: [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "React",
+        "Git"
+    ],
+
+    cloud: [
+        "Python",
+        "Linux",
+        "AWS",
+        "Git"
+    ]
+
+};
+
+
+function analyzeSkills() {
+
+    const name =
+        document.getElementById("studentName").value.trim();
+
+    const role =
+        document.getElementById("jobRole").value;
+
+
+    if (!name) {
+
+        alert("Please enter your name.");
+
+        return;
+
+    }
+
+
+    if (!role) {
+
+        alert("Please select a target job role.");
+
+        return;
+
+    }
+
+
+    const selectedSkills = [];
+
+    document
+        .querySelectorAll(".skill-option.selected")
+        .forEach(skill => {
+
+            selectedSkills.push(
+                skill.dataset.skill
+            );
+
+        });
+
+
+    if (selectedSkills.length === 0) {
+
+        alert("Please select at least one skill.");
+
+        return;
+
+    }
+
+
+    const requiredSkills =
+        jobRequirements[role];
+
+
+    const strengths =
+        selectedSkills.filter(skill =>
+            requiredSkills.includes(skill)
+        );
+
+
+    const gaps =
+        requiredSkills.filter(skill =>
+            !selectedSkills.includes(skill)
+        );
+
+
+    const score =
+        Math.round(
+            (strengths.length /
+            requiredSkills.length) * 100
+        );
+
+
+    document.getElementById("welcome").innerText =
+        "Great work, " + name + "!";
+
+
+    document.getElementById("matchScore").innerText =
+        score + "%";
+
+
+    document.getElementById("matchCircle").style.background =
+        `conic-gradient(#5b4bdb ${score}%, #e8e9f2 ${score}%)`;
+
+
+    const strengthsList =
+        document.getElementById("strengths");
+
+    strengthsList.innerHTML = "";
+
+
+    strengths.forEach(skill => {
+
+        const li =
+            document.createElement("li");
+
+        li.className = "strength";
+
+        li.innerHTML = "✓ " + skill;
+
+        strengthsList.appendChild(li);
+
+    });
+
+
+    if (strengths.length === 0) {
+
+        strengthsList.innerHTML =
+            "<li>No matching skills yet</li>";
+
+    }
+
+
+    const gapsList =
+        document.getElementById("gaps");
+
+    gapsList.innerHTML = "";
+
+
+    gaps.forEach(skill => {
+
+        const li =
+            document.createElement("li");
+
+        li.className = "gap";
+
+        li.innerHTML = "→ " + skill;
+
+        gapsList.appendChild(li);
+
+    });
+
+
+    if (gaps.length === 0) {
+
+        gapsList.innerHTML =
+            "<li>🎉 No major gaps!</li>";
+
+    }
+
+
+    const roadmap =
+        document.getElementById("roadmap");
+
+    roadmap.innerHTML = "";
+
+
+    gaps.forEach((skill, index) => {
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "roadmap-item";
+
+        item.innerHTML =
+            `<strong>Step ${index + 1}:</strong>
+             Learn ${skill}`;
+
+        roadmap.appendChild(item);
+
+    });
+
+
+    if (gaps.length === 0) {
+
+        roadmap.innerHTML =
+            `<div class="roadmap-item">
+                🎉 You have covered the major skills
+                required for this role!
+             </div>`;
+
+    }
+
+
+    document.getElementById("result").style.display =
+        "block";
+
+
+    document.getElementById("result")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+</script>
+
+</body>
+</html>

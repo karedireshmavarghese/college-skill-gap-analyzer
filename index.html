@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillGap AI | College Placement Skill-Gap Analyzer</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f6f8ff;
+            color: #172033;
+        }
+
+        nav {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: white;
+            border-bottom: 1px solid #e8eaf2;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #5b4bdb;
+        }
+
+        .logo span {
+            color: #172033;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555d70;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #5b4bdb;
+        }
+
+        .login {
+            border: 1px solid #5b4bdb;
+            padding: 10px 18px;
+            border-radius: 9px;
+            color: #5b4bdb !important;
+        }
+
+        .hero {
+            min-height: 650px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 70px 7%;
+            gap: 50px;
+            background:
+                radial-gradient(circle at 85% 20%, #e3ddff 0, transparent 28%),
+                radial-gradient(circle at 10% 80%, #dff4ff 0, transparent 25%),
+                #f8f9ff;
+        }
+
+        .hero-text {
+            max-width: 650px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #ebe8ff;
+            color: #5948d6;
+            padding: 9px 15px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-size: 58px;
+            line-height: 1.08;
+            margin-bottom: 22px;
+        }
+
+        h1 span {
+            color: #5b4bdb;
+        }
+
+        .hero-text p {
+            color: #626b7d;
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            padding: 15px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 15px;
+        }
+
+        .primary-btn {
+            background: #5b4bdb;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #4939c7;
+        }
+
+        .secondary-btn {
+            background: white;
+            color: #394150;
+            border: 1px solid #d9dce6;
+        }
+
+        .dashboard-card {
+            width: 420px;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 25px 60px rgba(40, 45, 80, 0.15);
+            border: 1px solid #eeeef5;
+        }
+
+        .card-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .card-title h3 {
+            font-size: 18px;
+        }
+
+        .status {
+            color: #18864b;
+            background: #e6f7ed;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .score {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: conic-gradient(#5b4bdb 78%, #e8e8f1 0);
+        }
+
+        .score-inner {
+            width: 115px;
+            height: 115px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .score-inner strong {
+            font-size: 30px;
+        }
+
+        .score-inner small {
+            color: #777;
+        }
+
+        .skills {
+            margin-top: 20px;
+        }
+
+        .skill {
+            margin-bottom: 15px;
+        }
+
+        .skill-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .progress {
+            height: 8px;
+            background: #ececf3;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress div {
+            height: 100%;
+            background: #5b4bdb;
+            border-radius: 20px;
+        }
+
+        .section {
+            padding: 80px 7%;
+            text-align: center;
+            background: white;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            color: #6b7280;
+            max-width: 650px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 45px;
+        }
+
+        .feature {
+            padding: 30px;
+            border: 1px solid #e8e9f1;
+            border-radius: 16px;
+            text-align: left;
+            background: #fbfbff;
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ebe8ff;
+            color: #5b4bdb;
+            border-radius: 12px;
+            font-size: 23px;
+            margin-bottom: 18px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #6b7280;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .how {
+            background: #f7f8ff;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 45px;
+        }
+
+        .step {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .number {
+            width: 40px;
+            height: 40px;
+            background: #5b4bdb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+
+        .step p {
+            color: #6b7280;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        footer {
+            background: #15182a;
+            color: white;
+            padding: 35px 7%;
+            text-align: center;
+        }
+
+        footer p {
+            color: #aeb2c2;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .buttons {
+                justify-content: center;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .dashboard-card {
+                width: 100%;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">SkillGap<span>AI</span></div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#how">How It Works</a>
+            <a href="#about">About</a>
+            <a href="#login" class="login">Sign In</a>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+
+        <div class="hero-text">
+
+            <div class="badge">
+                ✦ AI-Powered Career Intelligence
+            </div>
+
+            <h1>
+                Discover Your
+                <span>Skill Gaps.</span>
+                Build Your Future.
+            </h1>
+
+            <p>
+                Compare your current skills with real-world job requirements
+                and get a personalized roadmap to become placement-ready.
+            </p>
+
+            <div class="buttons">
+                <a href="#analyzer" class="primary-btn">
+                    Analyze My Skills →
+                </a>
+
+                <a href="#how" class="secondary-btn">
+                    See How It Works
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- Dashboard Preview -->
+        <div class="dashboard-card">
+
+            <div class="card-title">
+                <h3>Skill Gap Analysis</h3>
+                <div class="status">● Ready</div>
+            </div>
+
+            <div class="score">
+
+                <div class="score-circle">
+
+                    <div class="score-inner">
+                        <strong>78%</strong>
+                        <small>Skill Match</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="skills">
+
+                <div class="skill">
+                    <div class="skill-row">
+                        <span>Python</span>
+                        <span>90%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:90%"></div>
+                    </div>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-row">
+                        <span>SQL</span>
+                        <span>82%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:82%"></div>
+                    </div>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-row">
+                        <span>Data Structures</span>
+                        <span>65%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:65%"></div>
+                    </div>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-row">
+                        <span>Git & GitHub</span>
+                        <span>45%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:45%"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Features -->
+    <section class="section" id="features">
+
+        <h2>Everything You Need to Become Placement Ready</h2>
+
+        <p class="section-subtitle">
+            Turn your career goal into an actionable skill development plan
+            using evidence-based job requirements.
+        </p>
+
+
+        <div class="features">
+
+            <div class="feature">
+                <div class="icon">🎯</div>
+                <h3>Skill Gap Detection</h3>
+                <p>
+                    Identify the skills you already have and discover the
+                    important skills missing for your target role.
+                </p>
+            </div>
+
+
+            <div class="feature">
+                <div class="icon">📊</div>
+                <h3>Job Market Analysis</h3>
+                <p>
+                    Compare your profile against skills commonly requested
+                    in real-world job descriptions.
+                </p>
+            </div>
+
+
+            <div class="feature">
+                <div class="icon">🚀</div>
+                <h3>Personalized Roadmap</h3>
+                <p>
+                    Get a structured learning roadmap focused on the skills
+                    you need to improve.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- How It Works -->
+    <section class="section how" id="how">
+
+        <h2>How SkillGap AI Works</h2>
+
+        <p class="section-subtitle">
+            Four simple steps from knowing your career goal to building
+            the skills required for it.
+        </p>
+
+
+        <div class="steps">
+
+            <div class="step">
+                <div class="number">1</div>
+                <h3>Build Profile</h3>
+                <p>
+                    Enter your education, skills and career interests.
+                </p>
+            </div>
+
+
+            <div class="step">
+                <div class="number">2</div>
+                <h3>Select Role</h3>
+                <p>
+                    Choose the job role you want to target.
+                </p>
+            </div>
+
+
+            <div class="step">
+                <div class="number">3</div>
+                <h3>Find Gaps</h3>
+                <p>
+                    Analyze your skills against job requirements.
+                </p>
+            </div>
+
+
+            <div class="step">
+                <div class="number">4</div>
+                <h3>Learn & Grow</h3>
+                <p>
+                    Follow your personalized roadmap and track progress.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- About -->
+    <section class="section" id="about">
+
+        <h2>Built for Students</h2>
+
+        <p class="section-subtitle">
+            SkillGap AI helps college students understand exactly what
+            they need to learn for their desired career instead of
+            following a generic learning path.
+        </p>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <h3>SkillGapAI</h3>
+
+        <p>
+            College Placement Skill-Gap Analyzer
+        </p>
+
+        <p>
+            Built for Hackathon Prototype • 2026
+        </p>
+
+    </footer>
+
+</body>
+</html>

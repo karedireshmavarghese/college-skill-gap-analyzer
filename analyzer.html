@@ -1,275 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Skill Analyzer | SkillGap AI</title>
+<title>Skill Analyzer | SkillGap AI</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 
-        body {
-            background: #f5f7ff;
-            color: #172033;
-        }
+body {
+    background: #f5f7ff;
+    color: #172033;
+}
 
-        nav {
-            height: 70px;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 7%;
-            border-bottom: 1px solid #e7e8f0;
-        }
+nav {
+    height: 70px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7%;
+    border-bottom: 1px solid #e7e8f0;
+}
 
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: #5b4bdb;
-        }
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #5b4bdb;
+}
 
-        .logo span {
-            color: #172033;
-        }
+.logo span {
+    color: #172033;
+}
 
-        nav a {
-            text-decoration: none;
-            color: #555d70;
-            font-weight: 600;
-            font-size: 14px;
-        }
+nav a {
+    text-decoration: none;
+    color: #555d70;
+    font-weight: 600;
+}
 
-        .container {
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
+.container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
 
-        .heading {
-            text-align: center;
-            margin-bottom: 35px;
-        }
+.heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
 
-        .heading h1 {
-            font-size: 40px;
-            margin-bottom: 12px;
-        }
+.heading h1 {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
 
-        .heading h1 span {
-            color: #5b4bdb;
-        }
+.heading h1 span {
+    color: #5b4bdb;
+}
 
-        .heading p {
-            color: #687084;
-            font-size: 16px;
-        }
+.heading p {
+    color: #687084;
+}
 
-        .card {
-            background: white;
-            border-radius: 18px;
-            padding: 35px;
-            box-shadow: 0 15px 40px rgba(30, 35, 70, 0.08);
-            margin-bottom: 25px;
-        }
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 15px 40px rgba(30,35,70,0.08);
+    margin-bottom: 25px;
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 14px;
-        }
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #dfe1eb;
-            border-radius: 9px;
-            margin-bottom: 22px;
-            font-size: 15px;
-            outline: none;
-        }
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #dfe1eb;
+    border-radius: 9px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    outline: none;
+}
 
-        input:focus,
-        select:focus {
-            border-color: #5b4bdb;
-        }
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
-        }
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #5b4bdb;
+}
 
-        .skill-option {
-            border: 1px solid #dddfea;
-            padding: 12px;
-            border-radius: 9px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 14px;
-            background: #fafaff;
-        }
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
 
-        .skill-option:hover {
-            border-color: #5b4bdb;
-        }
+.skill-option {
+    border: 1px solid #dddfea;
+    padding: 12px;
+    border-radius: 9px;
+    cursor: pointer;
+    text-align: center;
+    background: #fafaff;
+}
 
-        .skill-option.selected {
-            background: #ebe8ff;
-            border-color: #5b4bdb;
-            color: #4d3cc8;
-            font-weight: bold;
-        }
+.skill-option:hover {
+    border-color: #5b4bdb;
+}
 
-        .analyze-btn {
-            width: 100%;
-            border: none;
-            background: #5b4bdb;
-            color: white;
-            padding: 16px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.skill-option.selected {
+    background: #ebe8ff;
+    border-color: #5b4bdb;
+    color: #4d3cc8;
+    font-weight: bold;
+}
 
-        .analyze-btn:hover {
-            background: #4939c7;
-        }
+.analyze-btn,
+.action-btn {
+    width: 100%;
+    border: none;
+    background: #5b4bdb;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        #result {
-            display: none;
-        }
+.analyze-btn:hover,
+.action-btn:hover {
+    background: #4939c7;
+}
 
-        .result-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+#result {
+    display: none;
+}
 
-        .result-header h2 {
-            margin-bottom: 8px;
-        }
+.result-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-        .match-circle {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            margin: 20px auto;
-            background: conic-gradient(#5b4bdb 0%, #e8e9f2 0%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.match-circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    margin: 20px auto;
+    background: conic-gradient(#5b4bdb 0%, #e8e9f2 0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .match-inner {
-            width: 125px;
-            height: 125px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+.match-inner {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
-        .match-inner strong {
-            font-size: 32px;
-        }
+.match-inner strong {
+    font-size: 32px;
+}
 
-        .match-inner small {
-            color: #707789;
-        }
+.match-inner small {
+    color: #707789;
+}
 
-        .result-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
 
-        .result-box {
-            padding: 22px;
-            border-radius: 12px;
-            background: #f8f8ff;
-        }
+.result-box {
+    padding: 22px;
+    border-radius: 12px;
+    background: #f8f8ff;
+}
 
-        .result-box h3 {
-            margin-bottom: 15px;
-        }
+.result-box h3 {
+    margin-bottom: 15px;
+}
 
-        .result-box ul {
-            list-style: none;
-        }
+.result-box ul {
+    list-style: none;
+}
 
-        .result-box li {
-            padding: 9px 0;
-            color: #5d6576;
-            border-bottom: 1px solid #e7e7ef;
-        }
+.result-box li {
+    padding: 9px 0;
+    color: #5d6576;
+    border-bottom: 1px solid #e7e7ef;
+}
 
-        .strength {
-            color: #198754 !important;
-        }
+.strength {
+    color: #198754 !important;
+}
 
-        .gap {
-            color: #d97706 !important;
-        }
+.gap {
+    color: #d97706 !important;
+}
 
-        .roadmap {
-            margin-top: 20px;
-            padding: 22px;
-            background: #ebe8ff;
-            border-radius: 12px;
-        }
+.roadmap {
+    margin-top: 20px;
+    padding: 22px;
+    background: #ebe8ff;
+    border-radius: 12px;
+}
 
-        .roadmap h3 {
-            margin-bottom: 15px;
-        }
+.roadmap h3 {
+    margin-bottom: 15px;
+}
 
-        .roadmap-item {
-            background: white;
-            padding: 13px;
-            border-radius: 8px;
-            margin-bottom: 9px;
-        }
+.roadmap-item {
+    background: white;
+    padding: 13px;
+    border-radius: 8px;
+    margin-bottom: 9px;
+}
 
-        footer {
-            margin-top: 60px;
-            background: #15182a;
-            color: white;
-            text-align: center;
-            padding: 30px;
-        }
+.progress-box {
+    margin-top: 15px;
+}
 
-        footer p {
-            color: #aeb2c2;
-            margin-top: 7px;
-            font-size: 13px;
-        }
+.progress-bar {
+    height: 12px;
+    background: #e6e7ef;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 8px;
+}
 
-        @media (max-width: 700px) {
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #5b4bdb;
+    transition: width 0.5s;
+}
 
-            .skills-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+.question {
+    padding: 18px;
+    background: #f8f8ff;
+    border-radius: 12px;
+    margin-bottom: 18px;
+}
 
-            .result-grid {
-                grid-template-columns: 1fr;
-            }
+.question h3 {
+    margin-bottom: 10px;
+}
 
-            .heading h1 {
-                font-size: 32px;
-            }
-        }
-    </style>
+.feedback {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.resource {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.resource a {
+    color: #5b4bdb;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+footer {
+    margin-top: 60px;
+    background: #15182a;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+footer p {
+    color: #aeb2c2;
+    margin-top: 7px;
+    font-size: 13px;
+}
+
+@media(max-width:700px) {
+
+    .skills-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .heading h1 {
+        font-size: 32px;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -282,218 +332,435 @@
     <a href="index.html">← Back to Home</a>
 </nav>
 
-
 <div class="container">
 
-    <div class="heading">
+<div class="heading">
+    <h1>
+        Analyze Your <span>Skill Gap</span>
+    </h1>
 
-        <h1>
-            Analyze Your <span>Skill Gap</span>
-        </h1>
+    <p>
+        Discover your strengths, identify your gaps and build your career roadmap.
+    </p>
+</div>
 
-        <p>
-            Compare your skills with the requirements of your target career.
-        </p>
 
-    </div>
+<!-- ANALYZER -->
 
+<div class="card">
 
-    <!-- INPUT CARD -->
+<label>Your Name</label>
 
-    <div class="card">
+<input
+    type="text"
+    id="studentName"
+    placeholder="Enter your name"
+>
 
-        <label>Your Name</label>
 
-        <input
-            type="text"
-            id="studentName"
-            placeholder="Enter your name"
-        >
+<label>Target Job Role</label>
 
+<select id="jobRole">
 
-        <label>Target Job Role</label>
+<option value="">
+    Select your target role
+</option>
 
-        <select id="jobRole">
+<option value="software">
+    Software Developer
+</option>
 
-            <option value="">
-                Select your target role
-            </option>
+<option value="data">
+    Data Analyst
+</option>
 
-            <option value="software">
-                Software Developer
-            </option>
+<option value="web">
+    Frontend Developer
+</option>
 
-            <option value="data">
-                Data Analyst
-            </option>
+<option value="cloud">
+    Cloud Engineer
+</option>
 
-            <option value="web">
-                Frontend Developer
-            </option>
+</select>
 
-            <option value="cloud">
-                Cloud Engineer
-            </option>
 
-        </select>
+<label>Select Your Current Skills</label>
 
+<div class="skills-grid">
 
-        <label>
-            Select Your Current Skills
-        </label>
+<div class="skill-option" data-skill="Python">Python</div>
 
-        <div class="skills-grid">
+<div class="skill-option" data-skill="Java">Java</div>
 
-            <div class="skill-option" data-skill="Python">
-                Python
-            </div>
+<div class="skill-option" data-skill="C">C</div>
 
-            <div class="skill-option" data-skill="Java">
-                Java
-            </div>
+<div class="skill-option" data-skill="SQL">SQL</div>
 
-            <div class="skill-option" data-skill="C">
-                C
-            </div>
+<div class="skill-option" data-skill="HTML">HTML</div>
 
-            <div class="skill-option" data-skill="SQL">
-                SQL
-            </div>
+<div class="skill-option" data-skill="CSS">CSS</div>
 
-            <div class="skill-option" data-skill="HTML">
-                HTML
-            </div>
+<div class="skill-option" data-skill="JavaScript">
+JavaScript
+</div>
 
-            <div class="skill-option" data-skill="CSS">
-                CSS
-            </div>
+<div class="skill-option" data-skill="Git">
+Git & GitHub
+</div>
 
-            <div class="skill-option" data-skill="JavaScript">
-                JavaScript
-            </div>
+<div class="skill-option" data-skill="DSA">
+Data Structures
+</div>
 
-            <div class="skill-option" data-skill="Git">
-                Git & GitHub
-            </div>
+<div class="skill-option" data-skill="React">
+React
+</div>
 
-            <div class="skill-option" data-skill="DSA">
-                Data Structures
-            </div>
+<div class="skill-option" data-skill="Excel">
+Excel
+</div>
 
-            <div class="skill-option" data-skill="React">
-                React
-            </div>
+<div class="skill-option" data-skill="AWS">
+AWS
+</div>
 
-            <div class="skill-option" data-skill="Excel">
-                Excel
-            </div>
+</div>
 
-            <div class="skill-option" data-skill="AWS">
-                AWS
-            </div>
+<button
+class="analyze-btn"
+onclick="analyzeSkills()">
 
-        </div>
+🔍 Analyze My Skills
 
+</button>
 
-        <button
-            class="analyze-btn"
-            onclick="analyzeSkills()"
-        >
-            🔍 Analyze My Skills
-        </button>
+</div>
 
-    </div>
 
+<!-- RESULTS -->
 
-    <!-- RESULT -->
+<div class="card" id="result">
 
-    <div class="card" id="result">
+<div class="result-header">
 
-        <div class="result-header">
+<h2 id="welcome"></h2>
 
-            <h2 id="welcome"></h2>
+<p>
+Here is your personalized skill-gap analysis.
+</p>
 
-            <p>
-                Here is your personalized skill-gap analysis.
-            </p>
+<div class="match-circle" id="matchCircle">
 
-            <div
-                class="match-circle"
-                id="matchCircle"
-            >
+<div class="match-inner">
 
-                <div class="match-inner">
+<strong id="matchScore">0%</strong>
 
-                    <strong id="matchScore">
-                        0%
-                    </strong>
+<small>Skill Match</small>
 
-                    <small>
-                        Skill Match
-                    </small>
+</div>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </div>
 
+<div class="result-grid">
 
-        <div class="result-grid">
+<div class="result-box">
 
-            <div class="result-box">
+<h3>✅ Your Strengths</h3>
 
-                <h3>✅ Your Strengths</h3>
+<ul id="strengths"></ul>
 
-                <ul id="strengths"></ul>
+</div>
 
-            </div>
 
+<div class="result-box">
 
-            <div class="result-box">
+<h3>⚠️ Skill Gaps</h3>
 
-                <h3>⚠️ Skill Gaps</h3>
+<ul id="gaps"></ul>
 
-                <ul id="gaps"></ul>
+</div>
 
-            </div>
+</div>
 
-        </div>
 
+<!-- WHERE AM I LAGGING -->
 
-        <div class="roadmap">
+<div class="roadmap">
 
-            <h3>🎯 Recommended Learning Roadmap</h3>
+<h3>📍 Where Am I Lagging?</h3>
 
-            <div id="roadmap"></div>
+<div id="laggingArea"></div>
 
-        </div>
+</div>
 
-    </div>
+
+<!-- ROADMAP -->
+
+<div class="roadmap">
+
+<h3>🎯 Recommended Learning Roadmap</h3>
+
+<div id="roadmap"></div>
+
+</div>
+
+
+<!-- IMPROVEMENT -->
+
+<div class="roadmap">
+
+<h3>🚀 How Can I Improve?</h3>
+
+<div id="improvement"></div>
+
+</div>
+
+
+<!-- RESOURCES -->
+
+<div class="roadmap">
+
+<h3>📚 Recommended Learning Resources</h3>
+
+<div id="resources"></div>
+
+</div>
+
+</div>
+
+
+<!-- COMMUNICATION -->
+
+<div class="card">
+
+<h2>🗣️ Communication Skill Practice</h2>
+
+<p style="margin:10px 0 20px;color:#687084;">
+
+Practice speaking clearly and confidently for interviews.
+
+</p>
+
+<div class="question">
+
+<h3>
+🎤 2-Minute Challenge
+</h3>
+
+<p>
+Introduce yourself and explain why you selected your target career.
+</p>
+
+<br>
+
+<textarea
+id="communicationAnswer"
+placeholder="Type your answer here..."
+></textarea>
+
+<button
+class="action-btn"
+onclick="checkCommunication()">
+
+Check My Answer
+
+</button>
+
+<div
+id="communicationFeedback"
+class="feedback">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DAILY QUESTIONS -->
+
+<div class="card">
+
+<h2>📝 Today's Questions</h2>
+
+<p style="margin:10px 0 20px;color:#687084;">
+Practice technical, aptitude and interview questions.
+</p>
+
+
+<div class="question">
+
+<h3>💻 Technical</h3>
+
+<p>
+What is the difference between an array and a linked list?
+</p>
+
+<textarea id="technicalAnswer"
+placeholder="Write your answer..."></textarea>
+
+<button
+class="action-btn"
+onclick="checkTechnical()">
+
+Submit Answer
+
+</button>
+
+<div
+id="technicalFeedback"
+class="feedback">
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>🧠 Aptitude</h3>
+
+<p>
+Find the next number:
+<br>
+2, 6, 12, 20, ?
+</p>
+
+<input
+type="text"
+id="aptitudeAnswer"
+placeholder="Enter your answer"
+>
+
+<button
+class="action-btn"
+onclick="checkAptitude()">
+
+Submit Answer
+
+</button>
+
+<div
+id="aptitudeFeedback"
+class="feedback">
+</div>
+
+</div>
+
+
+<div class="question">
+
+<h3>🎯 Interview</h3>
+
+<p>
+Tell me about yourself and your career goal.
+</p>
+
+<textarea
+id="interviewAnswer"
+placeholder="Write your answer..."
+></textarea>
+
+<button
+class="action-btn"
+onclick="checkInterview()">
+
+Submit Answer
+
+</button>
+
+<div
+id="interviewFeedback"
+class="feedback">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PROGRESS -->
+
+<div class="card">
+
+<h2>📊 My Progress</h2>
+
+<div class="progress-box">
+
+<strong>Technical Skills</strong>
+
+<div class="progress-bar">
+
+<div
+class="progress-fill"
+id="technicalProgress">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="progress-box">
+
+<strong>Communication</strong>
+
+<div class="progress-bar">
+
+<div
+class="progress-fill"
+style="width:60%">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="progress-box">
+
+<strong>Interview Readiness</strong>
+
+<div class="progress-bar">
+
+<div
+class="progress-fill"
+style="width:50%">
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 
 <footer>
 
-    <h3>SkillGapAI</h3>
+<h3>SkillGapAI</h3>
 
-    <p>
-        College Placement Skill-Gap Analyzer
-    </p>
+<p>
+College Placement Skill-Gap Analyzer
+</p>
 
-    <p>
-        Hackathon Prototype • 2026
-    </p>
+<p>
+Hackathon Prototype • 2026
+</p>
 
 </footer>
 
 
 <script>
 
+
+// SKILL SELECTION
+
 const skillOptions =
 document.querySelectorAll(".skill-option");
-
 
 skillOptions.forEach(option => {
 
@@ -505,6 +772,8 @@ skillOptions.forEach(option => {
 
 });
 
+
+// JOB REQUIREMENTS
 
 const jobRequirements = {
 
@@ -533,7 +802,6 @@ const jobRequirements = {
 
     cloud: [
         "Python",
-        "Linux",
         "AWS",
         "Git"
     ]
@@ -541,16 +809,18 @@ const jobRequirements = {
 };
 
 
+// ANALYZE
+
 function analyzeSkills() {
 
     const name =
-        document.getElementById("studentName").value.trim();
+    document.getElementById("studentName").value.trim();
 
     const role =
-        document.getElementById("jobRole").value;
+    document.getElementById("jobRole").value;
 
 
-    if (!name) {
+    if(!name) {
 
         alert("Please enter your name.");
 
@@ -559,7 +829,7 @@ function analyzeSkills() {
     }
 
 
-    if (!role) {
+    if(!role) {
 
         alert("Please select a target job role.");
 
@@ -571,17 +841,17 @@ function analyzeSkills() {
     const selectedSkills = [];
 
     document
-        .querySelectorAll(".skill-option.selected")
-        .forEach(skill => {
+    .querySelectorAll(".skill-option.selected")
+    .forEach(skill => {
 
-            selectedSkills.push(
-                skill.dataset.skill
-            );
+        selectedSkills.push(
+            skill.dataset.skill
+        );
 
-        });
+    });
 
 
-    if (selectedSkills.length === 0) {
+    if(selectedSkills.length === 0) {
 
         alert("Please select at least one skill.");
 
@@ -591,42 +861,44 @@ function analyzeSkills() {
 
 
     const requiredSkills =
-        jobRequirements[role];
+    jobRequirements[role];
 
 
     const strengths =
-        selectedSkills.filter(skill =>
-            requiredSkills.includes(skill)
-        );
+    selectedSkills.filter(skill =>
+        requiredSkills.includes(skill)
+    );
 
 
     const gaps =
-        requiredSkills.filter(skill =>
-            !selectedSkills.includes(skill)
-        );
+    requiredSkills.filter(skill =>
+        !selectedSkills.includes(skill)
+    );
 
 
     const score =
-        Math.round(
-            (strengths.length /
-            requiredSkills.length) * 100
-        );
+    Math.round(
+        (strengths.length /
+        requiredSkills.length) * 100
+    );
 
 
     document.getElementById("welcome").innerText =
-        "Great work, " + name + "!";
+    "Great work, " + name + "!";
 
 
     document.getElementById("matchScore").innerText =
-        score + "%";
+    score + "%";
 
 
     document.getElementById("matchCircle").style.background =
-        `conic-gradient(#5b4bdb ${score}%, #e8e9f2 ${score}%)`;
+    `conic-gradient(#5b4bdb ${score}%, #e8e9f2 ${score}%)`;
 
+
+    // STRENGTHS
 
     const strengthsList =
-        document.getElementById("strengths");
+    document.getElementById("strengths");
 
     strengthsList.innerHTML = "";
 
@@ -634,7 +906,7 @@ function analyzeSkills() {
     strengths.forEach(skill => {
 
         const li =
-            document.createElement("li");
+        document.createElement("li");
 
         li.className = "strength";
 
@@ -645,16 +917,18 @@ function analyzeSkills() {
     });
 
 
-    if (strengths.length === 0) {
+    if(strengths.length === 0) {
 
         strengthsList.innerHTML =
-            "<li>No matching skills yet</li>";
+        "<li>No matching skills yet</li>";
 
     }
 
 
+    // GAPS
+
     const gapsList =
-        document.getElementById("gaps");
+    document.getElementById("gaps");
 
     gapsList.innerHTML = "";
 
@@ -662,7 +936,7 @@ function analyzeSkills() {
     gaps.forEach(skill => {
 
         const li =
-            document.createElement("li");
+        document.createElement("li");
 
         li.className = "gap";
 
@@ -673,56 +947,304 @@ function analyzeSkills() {
     });
 
 
-    if (gaps.length === 0) {
+    if(gaps.length === 0) {
 
         gapsList.innerHTML =
-            "<li>🎉 No major gaps!</li>";
+        "<li>🎉 No major gaps!</li>";
 
     }
 
 
+    // LAGGING AREA
+
+    const lagging =
+    document.getElementById("laggingArea");
+
+    lagging.innerHTML = "";
+
+
+    if(gaps.length > 0) {
+
+        gaps.forEach(skill => {
+
+            const item =
+            document.createElement("div");
+
+            item.className =
+            "roadmap-item";
+
+            item.innerHTML =
+            `<strong>${skill}</strong>
+            <br>
+            You need more practice in ${skill}.
+            <br>
+            Recommended: Learn the basics → Practice → Build a project.`;
+
+            lagging.appendChild(item);
+
+        });
+
+    } else {
+
+        lagging.innerHTML =
+        `<div class="roadmap-item">
+        🎉 Your selected skills cover the major requirements.
+        </div>`;
+
+    }
+
+
+    // ROADMAP
+
     const roadmap =
-        document.getElementById("roadmap");
+    document.getElementById("roadmap");
 
     roadmap.innerHTML = "";
 
 
-    gaps.forEach((skill, index) => {
+    gaps.forEach((skill,index) => {
 
         const item =
-            document.createElement("div");
+        document.createElement("div");
 
         item.className =
-            "roadmap-item";
+        "roadmap-item";
 
         item.innerHTML =
-            `<strong>Step ${index + 1}:</strong>
-             Learn ${skill}`;
+        `<strong>Step ${index + 1}</strong>
+        → Learn ${skill}`;
 
         roadmap.appendChild(item);
 
     });
 
 
-    if (gaps.length === 0) {
+    if(gaps.length === 0) {
 
         roadmap.innerHTML =
-            `<div class="roadmap-item">
-                🎉 You have covered the major skills
-                required for this role!
-             </div>`;
+        `<div class="roadmap-item">
+        🎉 You have covered the major skills required for this role!
+        </div>`;
 
     }
 
 
+    // IMPROVEMENT
+
+    const improvement =
+    document.getElementById("improvement");
+
+    improvement.innerHTML = "";
+
+
+    gaps.forEach(skill => {
+
+        const item =
+        document.createElement("div");
+
+        item.className =
+        "roadmap-item";
+
+        item.innerHTML =
+        `📌 <strong>${skill}</strong>
+        <br>
+        Study the fundamentals of ${skill},
+        solve practice problems and build a small project.`;
+
+        improvement.appendChild(item);
+
+    });
+
+
+    // RESOURCES
+
+    const resources =
+    document.getElementById("resources");
+
+    resources.innerHTML = "";
+
+
+    gaps.forEach(skill => {
+
+        const item =
+        document.createElement("div");
+
+        item.className =
+        "resource";
+
+        const search =
+        encodeURIComponent(
+        skill + " tutorial for beginners");
+
+        item.innerHTML =
+        `📺
+        <a
+        href="https://www.youtube.com/results?search_query=${search}"
+        target="_blank">
+
+        Learn ${skill} on YouTube →
+
+        </a>`;
+
+        resources.appendChild(item);
+
+    });
+
+
+    if(gaps.length === 0) {
+
+        resources.innerHTML =
+        `<div class="resource">
+        🎉 Keep practicing your existing skills!
+        </div>`;
+
+    }
+
+
+    // TECHNICAL PROGRESS
+
+    document.getElementById(
+        "technicalProgress"
+    ).style.width = score + "%";
+
+
+    // SHOW RESULT
+
     document.getElementById("result").style.display =
-        "block";
+    "block";
 
 
     document.getElementById("result")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+// COMMUNICATION
+
+function checkCommunication() {
+
+    const answer =
+    document.getElementById(
+        "communicationAnswer"
+    ).value.trim();
+
+
+    const feedback =
+    document.getElementById(
+        "communicationFeedback"
+    );
+
+
+    if(answer.length < 30) {
+
+        feedback.innerText =
+        "⚠️ Try explaining yourself with a little more detail.";
+
+    } else {
+
+        feedback.innerText =
+        "✅ Good start! Practice speaking this answer clearly and confidently.";
+
+    }
+
+}
+
+
+// TECHNICAL
+
+function checkTechnical() {
+
+    const answer =
+    document.getElementById(
+        "technicalAnswer"
+    ).value.toLowerCase();
+
+
+    const feedback =
+    document.getElementById(
+        "technicalFeedback"
+    );
+
+
+    if(
+        answer.includes("array") &&
+        answer.includes("linked")
+    ) {
+
+        feedback.innerText =
+        "✅ Good! You mentioned both data structures.";
+
+    } else {
+
+        feedback.innerText =
+        "⚠️ Try explaining arrays and linked lists, including how memory and access work.";
+
+    }
+
+}
+
+
+// APTITUDE
+
+function checkAptitude() {
+
+    const answer =
+    document.getElementById(
+        "aptitudeAnswer"
+    ).value.trim();
+
+
+    const feedback =
+    document.getElementById(
+        "aptitudeFeedback"
+    );
+
+
+    if(answer === "30") {
+
+        feedback.innerText =
+        "✅ Correct! The answer is 30.";
+
+    } else {
+
+        feedback.innerText =
+        "❌ Not quite. Look at the pattern between consecutive numbers.";
+
+    }
+
+}
+
+
+// INTERVIEW
+
+function checkInterview() {
+
+    const answer =
+    document.getElementById(
+        "interviewAnswer"
+    ).value.trim();
+
+
+    const feedback =
+    document.getElementById(
+        "interviewFeedback"
+    );
+
+
+    if(answer.length < 40) {
+
+        feedback.innerText =
+        "⚠️ Add your education, skills, projects and career goal.";
+
+    } else {
+
+        feedback.innerText =
+        "✅ Good attempt! Keep your introduction clear and structured.";
+
+    }
 
 }
 
